@@ -2,12 +2,13 @@
 
 https://winterbe.com/posts/2015/03/15/avoid-null-checks-in-java/
 
-Řetězení přes funkci map:
+Řetězení přes funkci map - vypíše kód company pokud company a kód není null:
 
 ```java
-Optional.of(new Outer())
-    .map(Outer::getNested)
-    .map(Nested::getInner)
-    .map(Inner::getFoo)
+Optional.of(workspace)
+    .map(DciWorkspace::getCurrentCompany)
+    .map(Company::getCode)
     .ifPresent(System.out::println);
 ```
+
+TODO: Připravit vlastní příklad
