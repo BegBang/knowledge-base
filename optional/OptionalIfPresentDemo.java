@@ -24,11 +24,21 @@ class OptionalIfPresentDemo {
     }
 
     private static void printCity(Building building) {
+        // Method reference syntax, it is special lambda expressions
         Optional.of(building)
                 .map(Building::getAddress)
                 .map(Address::getCity)
                 .ifPresentOrElse(System.out::println,
                         () -> System.out.println("No city"));
+
+        // Can be rewritten as following lambdas
+        /*
+        Optional.of(building)
+                .map(b -> b.getAddress())
+                .map(a -> a.getCity())
+                .ifPresentOrElse(c -> System.out.println(c),
+                        () -> System.out.println("No city"));
+         */
     }
 }
 
