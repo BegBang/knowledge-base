@@ -1,5 +1,12 @@
 # Optional in Java
 
+**Nepoužívat Optional jako argumenty u metod!! Dává smysl pouze jako výstup z metod, kde chceme jasně deklarovat, ze může být prázdný.**
+U Optional argumentu metody nastane problém, kdy lze metodu zavolat jako s parametrem null nebo jako Optional.empty(). V samotném kódu metody se musí oba stavy ošetřit a není potom jasné, co který stav znamená.
+Nepovinné argumenty lze řešit:
+1. @NotNull anotací - IntelliJ zobrazuje porušení jako warning
+2. Přetížením metody, kde se metoda zavolá s default hodnotou parametru
+3. Logika metody počítá s null hodnotou a ošetří ji
+
 https://www.baeldung.com/java-optional
 
 ### Optional.of()
@@ -11,7 +18,7 @@ Assertions.assertFalse(Optional.ofNullable(null).isPresent());
 ```
 
 ### Optional.get()
-Pokud se volá get, nesmí být Optional prázdný, jinak vyvolá vyjímku.
+Pokud se volá get, nesmí být Optional prázdný, jinak vyvolá vyjímku NoSuchElementException (stejně se chová metoda orElseThrow bez uvedeného parametru).
 ```java
 Assertions.assertThrows(NoSuchElementException.class, () -> Optional.ofNullable(null).get());
 Assertions.assertEquals("some_string", Optional.of("some_string").get());
@@ -27,7 +34,7 @@ String name = Optional.ofNullable(null).orElse("john");
 String name = Optional.ofNullable(null).orElseGet(() -> "john");
 
 // Throws exception when Optional is empty.
-// When orElseThrow argument is not specified, it throws NoSuchElementException by default.
+// When orElseThrow argument is not specified, it throws NoSuchElementException by default (same as get()).
 String name = Optional.ofNullable(null).orElseThrow(IllegalArgumentException::new);
 
 // Relative to if condition where instance is checked against null.
